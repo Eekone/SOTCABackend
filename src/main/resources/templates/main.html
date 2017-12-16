@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <link href="webjars/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+
+
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <span class="navbar-brand mb-0 h1">Мосгаз</span>
+</nav>
+
+<div class="container">
+
+    <h1>Последние полученные регистры</h1>
+
+    <div id="accordion" role="tablist" aria-multiselectable="true">
+        <div th:each="batch, iter : ${batches}" class="card">
+            <div class="card-header" role="tab" id="headingOne">
+                <a th:text="${batch.timestamp}+'   '+${batch.type}" data-toggle="collapse"
+                   th:href="'#collapse'+${iter.index}" aria-expanded="false" aria-controls="collapseOne"></a>
+            </div>
+            <div th:id="collapse+${iter.index}" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                <table class="table table-sm table-bordered" style="text-align:center">
+                    <tr>
+                        <th>Команда</th>
+                        <th>Номер регистра</th>
+                        <th>Имя регистра</th>
+                        <th>Значение</th>
+                    </tr>
+                    <tr th:each="register : ${batch.registers}" th:class="command+${register.command}">
+                        <td th:text="${register.command}"></td>
+                        <td th:text="${register.number}"></td>
+                        <td th:text="${register.name}"></td>
+                        <td th:text="${register.value}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row justify-content-center">
+    <div class="form-group col-md-1">
+        <select class="form-control pagination" id="pageSizeSelect">
+            <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
+                    th:selected="${pageSize} == ${selectedPageSize}"></option>
+        </select>
+    </div>
+    <ul class="pagination ">
+        <li th:class="${batches.number == 0} ? disabled">
+            <a class="page-link" th:href="@{/(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
+        </li>
+        <li th:class="${batches.number == 0} ? disabled">
+            <a class="page-link" th:href="@{/(pageSize=${selectedPageSize}, page=${batches.number})}">&larr;</a>
+        </li>
+        <li th:class="${batches.number == (page - 1)} ? 'page-item active'"
+            th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+            <a class="page-link" th:href="@{/(pageSize=${selectedPageSize}, page=${page})}" th:text="${page}"></a>
+        </li>
+        <li th:class="${batches.number + 1 == batches.totalPages} ? disabled">
+            <a class="page-link" th:href="@{/(pageSize=${selectedPageSize}, page=${batches.number + 2})}">&rarr;</a>
+        </li>
+        <li th:class="${batches.number + 1 == batches.totalPages} ? disabled">
+            <a class="page-link" th:href="@{/(pageSize=${selectedPageSize}, page=${batches.totalPages})}">&raquo;</a>
+        </li>
+    </ul>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
+
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
