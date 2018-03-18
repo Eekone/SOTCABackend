@@ -2,9 +2,11 @@ package com.texnoprom.SOTCA.Backend;
 
 import com.texnoprom.SOTCA.Backend.dao.mdam.BatchRepository;
 import com.texnoprom.SOTCA.Backend.dao.tct.DBVersionRepository;
+import com.texnoprom.SOTCA.Backend.dao.tct.ParameterTypeRepository;
 import com.texnoprom.SOTCA.Backend.model.mdam.Register;
 import com.texnoprom.SOTCA.Backend.model.mdam.RegisterBatch;
 import com.texnoprom.SOTCA.Backend.model.tct.DBVersion;
+import com.texnoprom.SOTCA.Backend.model.tct.ParameterType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +32,9 @@ public class MainController {
 
     @Autowired
     private DBVersionRepository dbVersionRepository;
+
+    @Autowired
+    private ParameterTypeRepository parameterTypeRepository;
 
     private RegisterService registerService;
 
@@ -77,11 +82,18 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping("/test")
-    public String test() {
-        Iterable<DBVersion> iter = dbVersionRepository.findAll();
+    @GetMapping("/tctdbversion")
+    public ModelAndView test() {
+        ModelAndView modelAndView = new ModelAndView("tctdbversion");
+        DBVersion dbVersion = dbVersionRepository.findTopByOrderByIddbversionDesc();
+        //ToDo: move to template
+        String versionString = "Версия: " + dbVersion.getDbversionname() +
+                "; Дата: " + dbVersion.getDbversionchange().toString();
+        modelAndView.addObject("version", versionString);
 
-        return "ha-ha";
+        Iterable<ParameterType> test = parameterTypeRepository.findAll();
+
+        return modelAndView;
     }
 
 }

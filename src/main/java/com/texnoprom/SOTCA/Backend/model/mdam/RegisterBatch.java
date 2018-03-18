@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(schema = "tctdb11", name = "register_batch")
+@Table(schema = "mdam_registers", name = "register_batch")
 public class RegisterBatch {
 
     @Id

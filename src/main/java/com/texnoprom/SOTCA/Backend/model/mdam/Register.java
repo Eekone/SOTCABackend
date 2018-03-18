@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(schema = "tctdb11", name = "register")
+@Table(schema = "mdam_registers", name = "register")
 public class Register {
 
     @Id
