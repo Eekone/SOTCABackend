@@ -1,8 +1,10 @@
 package com.texnoprom.SOTCA.Backend;
 
-import com.texnoprom.SOTCA.Backend.model.Register;
-import com.texnoprom.SOTCA.Backend.model.RegisterBatch;
-import com.texnoprom.SOTCA.Backend.repository.BatchRepository;
+import com.texnoprom.SOTCA.Backend.dao.mdam.BatchRepository;
+import com.texnoprom.SOTCA.Backend.dao.tct.DBVersionRepository;
+import com.texnoprom.SOTCA.Backend.model.mdam.Register;
+import com.texnoprom.SOTCA.Backend.model.mdam.RegisterBatch;
+import com.texnoprom.SOTCA.Backend.model.tct.DBVersion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,9 @@ public class MainController {
 
     @Autowired
     private BatchRepository batchRepository;
+
+    @Autowired
+    private DBVersionRepository dbVersionRepository;
 
     private RegisterService registerService;
 
@@ -74,6 +79,8 @@ public class MainController {
 
     @GetMapping("/test")
     public String test() {
+        Iterable<DBVersion> iter = dbVersionRepository.findAll();
+
         return "ha-ha";
     }
 

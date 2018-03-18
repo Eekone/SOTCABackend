@@ -1,7 +1,7 @@
-package com.texnoprom.SOTCA.Backend.repository;
+package com.texnoprom.SOTCA.Backend.dao.mdam;
 
 
-import com.texnoprom.SOTCA.Backend.model.Register;
+import com.texnoprom.SOTCA.Backend.model.mdam.Register;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository

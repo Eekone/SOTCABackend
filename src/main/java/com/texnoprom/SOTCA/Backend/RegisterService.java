@@ -1,7 +1,7 @@
 package com.texnoprom.SOTCA.Backend;
 
-import com.texnoprom.SOTCA.Backend.model.RegisterBatch;
-import com.texnoprom.SOTCA.Backend.repository.BatchRepository;
+import com.texnoprom.SOTCA.Backend.dao.mdam.BatchRepository;
+import com.texnoprom.SOTCA.Backend.model.mdam.RegisterBatch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,14 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RegisterService {
 
-    private BatchRepository personRepository;
+    private BatchRepository batchRepository;
 
-    public RegisterService(BatchRepository personRepository) {
-        this.personRepository = personRepository;
+    public RegisterService(BatchRepository batchRepository) {
+        this.batchRepository = batchRepository;
     }
 
     @Transactional
     public Page<RegisterBatch> findAllPageable(Pageable pageable) {
-        return personRepository.findAll(pageable);
+        return batchRepository.findAll(pageable);
     }
 }
