@@ -14,7 +14,7 @@ public class Pager {
 
     private int endPage;
 
-    Pager(int totalPages, int currentPage, int buttonsToShow) {
+    public Pager(int totalPages, int currentPage, int buttonsToShow) {
 
         setButtonsToShow(buttonsToShow);
 

@@ -1,12 +1,10 @@
-package com.texnoprom.SOTCA.Backend;
+package com.texnoprom.SOTCA.Backend.controller;
 
+import com.texnoprom.SOTCA.Backend.Pager;
+import com.texnoprom.SOTCA.Backend.RegisterService;
 import com.texnoprom.SOTCA.Backend.dao.mdam.BatchRepository;
-import com.texnoprom.SOTCA.Backend.dao.tct.DBVersionRepository;
-import com.texnoprom.SOTCA.Backend.dao.tct.ParameterTypeRepository;
 import com.texnoprom.SOTCA.Backend.model.mdam.Register;
 import com.texnoprom.SOTCA.Backend.model.mdam.RegisterBatch;
-import com.texnoprom.SOTCA.Backend.model.tct.DBVersion;
-import com.texnoprom.SOTCA.Backend.model.tct.ParameterType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,8 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Optional;
 
 @Controller
-//@RequestMapping(path="/")
-public class MainController {
+@RequestMapping(path = "/mdam")
+public class MDAMController {
+
     private static final int BUTTONS_TO_SHOW = 5;
     private static final int INITIAL_PAGE = 0;
     private static final int INITIAL_PAGE_SIZE = 10;
@@ -30,15 +29,9 @@ public class MainController {
     @Autowired
     private BatchRepository batchRepository;
 
-    @Autowired
-    private DBVersionRepository dbVersionRepository;
-
-    @Autowired
-    private ParameterTypeRepository parameterTypeRepository;
-
     private RegisterService registerService;
 
-    public MainController(RegisterService r) {
+    public MDAMController(RegisterService r) {
         this.registerService = r;
     }
 
@@ -62,9 +55,9 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public ModelAndView showPersonsPage(@RequestParam("pageSize") Optional<Integer> pageSize,
-                                        @RequestParam("page") Optional<Integer> page) {
-        ModelAndView modelAndView = new ModelAndView("main");
+    public ModelAndView showMDAM(@RequestParam("pageSize") Optional<Integer> pageSize,
+                                 @RequestParam("page") Optional<Integer> page) {
+        ModelAndView modelAndView = new ModelAndView("mdam");
 
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
@@ -82,18 +75,9 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping("/tctdbversion")
-    public ModelAndView test() {
-        ModelAndView modelAndView = new ModelAndView("tctdbversion");
-        DBVersion dbVersion = dbVersionRepository.findTopByOrderByIddbversionDesc();
-        //ToDo: move to template
-        String versionString = "Версия: " + dbVersion.getDbversionname() +
-                "; Дата: " + dbVersion.getDbversionchange().toString();
-        modelAndView.addObject("version", versionString);
-
-        Iterable<ParameterType> test = parameterTypeRepository.findAll();
-
-        return modelAndView;
+    @GetMapping("/test")
+    public String tes2() {
+        return "Test!";
     }
 
 }
