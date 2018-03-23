@@ -54,7 +54,7 @@ public class MDAMController {
                 .body("Уcпешно загружено");
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ModelAndView showMDAM(@RequestParam("pageSize") Optional<Integer> pageSize,
                                  @RequestParam("page") Optional<Integer> page) {
         ModelAndView modelAndView = new ModelAndView("mdam");

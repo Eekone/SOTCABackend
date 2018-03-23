@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)https://getbootstrap.com/docs/4.0/examples/product/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Product example for Bootstrap</title>
+    <link th:href="@{/css/mainpage.css}" rel="stylesheet"/>
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+</head>
+
+<body>
+
+<nav class="site-header sticky-top py-1">
+    <div class="container d-flex flex-column flex-md-row justify-content-between">
+        <a class="py-2" href="https://getbootstrap.com/docs/4.0/examples/product/#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="d-block mx-auto">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+                <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+                <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+                <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+                <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+                <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+            </svg>
+        </a>
+        <a class="py-2 d-none d-md-inline-block" href="https://getbootstrap.com/docs/4.0/examples/product/#">Tour</a>
+        <a class="py-2 d-none d-md-inline-block" href="https://getbootstrap.com/docs/4.0/examples/product/#">Product</a>
+    </div>
+</nav>
+
+<div class="container" style="width:80%; margin-top: 15px">
+    <div class="row">
+        <div class="col">
+            <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%;">
+                <button id="table-btn" type="button" class="btn btn-secondary" style="width: 50%;">Таблица</button>
+                <button id="json-btn" type="button" class="btn btn-secondary" style="width: 50%;margin-left: 1px;">
+                    JSON
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="table" style="display: inline; position: absolute;"
+             class="overflow-hidden p-3 p-md-5 m-md-3 text-left bg-light">
+            <pre>sfsdgdgdfhh</pre>
+        </div>
+
+        <div id="json" style="display: none; position: absolute;"
+             class="overflow-hidden p-3 p-md-5 m-md-3 text-left bg-light">
+            <pre th:text="${json}"></pre>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script>
+    Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+    });
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+<script>
+    $(document).on('click', '#json-btn', function () {
+        $('#json').css('display', 'inline');
+        $('#table').css('display', 'none');
+    }).on('click', '#table-btn', function () {
+        $('#json').css('display', 'none');
+        $('#table').css('display', 'inline');
+    })
+</script>
+
+
+</body>
+</html>

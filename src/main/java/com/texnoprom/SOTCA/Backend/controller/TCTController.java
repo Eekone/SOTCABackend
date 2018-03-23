@@ -1,12 +1,18 @@
 package com.texnoprom.SOTCA.Backend.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.texnoprom.SOTCA.Backend.dao.tct.DBVersionRepository;
+import com.texnoprom.SOTCA.Backend.dao.tct.ParameterTypeRepository;
 import com.texnoprom.SOTCA.Backend.model.tct.DBVersion;
+import com.texnoprom.SOTCA.Backend.model.tct.ParameterType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/tct")
@@ -15,6 +21,8 @@ public class TCTController {
     @Autowired
     private DBVersionRepository dbVersionRepository;
 
+    @Autowired
+    private ParameterTypeRepository parameterTypeRepository;
 
     public TCTController() {
     }
@@ -32,9 +40,15 @@ public class TCTController {
         return modelAndView;
     }
 
-    @GetMapping("/test")
-    public String tes() {
-        return "test1!";
+    @GetMapping("/parametertypes")
+    public ModelAndView tes() {
+        ModelAndView modelAndView = new ModelAndView("params");
+        List<ParameterType> types = parameterTypeRepository.findTop25ByOrderByParameterTypesId();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(types);
+        modelAndView.addObject("json", json);
+
+        return modelAndView;
     }
 
 }
