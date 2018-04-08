@@ -17,7 +17,8 @@ public class RegisterService {
     }
 
     @Transactional
-    public Page<RegisterBatch> findAllPageable(Pageable pageable) {
-        return batchRepository.findAll(pageable);
+    public Page<RegisterBatch> findByType(String name, Pageable pageable) {
+        return batchRepository.findByType(name, pageable);
     }
+
 }

@@ -9,13 +9,16 @@
 
 </head>
 <body>
-<nav class="navbar navbar-light bg-light">
-    <span class="navbar-brand mb-0 h1">Мосгаз</span>
+<nav class="navbar navbar-dark bg-dark">
+    <a class="py-2 d-none text-light d-md-inline-block" href="/">СОТКА</a>
+    <a class="py-2 d-none text-light d-md-inline-block" href="/sotca/modbustcp">Modbus TCP</a>
+    <a class="py-2 d-none text-light d-md-inline-block" href="/sotca/modbusbt">Modbus RTU over BT</a>
+    <a class="py-2 d-none text-light d-md-inline-block" href=""></a>
 </nav>
 
 <div class="container">
 
-    <h1>Последние полученные регистры</h1>
+    <h2 style="padding-top: 15px; padding-bottom: 15px">Последние полученные регистры</h2>
 
     <div id="accordion" role="tablist" aria-multiselectable="true">
         <div th:each="batch, iter : ${batches}" class="card">

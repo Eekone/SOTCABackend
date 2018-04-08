@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/mdam")
+@RequestMapping(path = "/sotca")
 public class MDAMController {
 
     private static final int BUTTONS_TO_SHOW = 5;
@@ -54,15 +54,32 @@ public class MDAMController {
                 .body("Уcпешно загружено");
     }
 
-    @GetMapping
-    public ModelAndView showMDAM(@RequestParam("pageSize") Optional<Integer> pageSize,
+    @GetMapping("/modbustcp")
+    public ModelAndView modbustcp(@RequestParam("pageSize") Optional<Integer> pageSize,
                                  @RequestParam("page") Optional<Integer> page) {
+
+        return getModelAndViewByType("ОПЕ11", pageSize, page);
+    }
+
+    @GetMapping("/modbusbt")
+    public ModelAndView modbusbt(@RequestParam("pageSize") Optional<Integer> pageSize,
+                                 @RequestParam("page") Optional<Integer> page) {
+
+        return getModelAndViewByType("БКМ1", pageSize, page);
+    }
+
+    @GetMapping("/test")
+    public String tes2() {
+        return "Test!";
+    }
+
+    private ModelAndView getModelAndViewByType(String type, Optional<Integer> pageSize, Optional<Integer> page) {
         ModelAndView modelAndView = new ModelAndView("mdam");
 
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Page<RegisterBatch> batches = registerService.findAllPageable(new PageRequest(evalPage, evalPageSize, new Sort(
+        Page<RegisterBatch> batches = registerService.findByType(type, new PageRequest(evalPage, evalPageSize, new Sort(
                 new Sort.Order(Sort.Direction.DESC, "timestamp")
         )));
         Pager pager = new Pager(batches.getTotalPages(), batches.getNumber(), BUTTONS_TO_SHOW);
@@ -74,11 +91,5 @@ public class MDAMController {
         modelAndView.addObject("pager", pager);
         return modelAndView;
     }
-
-    @GetMapping("/test")
-    public String tes2() {
-        return "Test!";
-    }
-
 }
 
