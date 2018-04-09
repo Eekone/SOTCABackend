@@ -68,6 +68,13 @@ public class MDAMController {
         return getModelAndViewByType("БКМ1", pageSize, page);
     }
 
+    @GetMapping("/mmpr")
+    public ModelAndView mmpr(@RequestParam("pageSize") Optional<Integer> pageSize,
+                             @RequestParam("page") Optional<Integer> page) {
+
+        return getModelAndViewByType("ММПР", pageSize, page);
+    }
+
     @GetMapping("/test")
     public String tes2() {
         return "Test!";
