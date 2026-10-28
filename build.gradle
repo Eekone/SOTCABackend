@@ -18,6 +18,18 @@ group = 'com.texnoprom.SOTCA.Backend'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+// bootRun.main is only filled in later by findMainClass. IntelliJ reads it
+// at import time and fails with CantRunException if it is still empty.
+def applicationMainClass = 'com.texnoprom.SOTCA.Backend.BackendBootstrap'
+
+springBoot {
+    mainClass = applicationMainClass
+}
+
+bootRun {
+    main = applicationMainClass
+}
+
 repositories {
 	mavenCentral()
 }
