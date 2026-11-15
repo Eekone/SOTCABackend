@@ -79,10 +79,51 @@ CREATE TABLE IF NOT EXISTS tctdb11.parametertypes (
     CONSTRAINT parametertypes_pkey PRIMARY KEY (parametertypesid)
 );
 
+-- Columns used by /tct/customquery. The repository has no original DDL, so the
+-- types below are only wide enough for that SELECT. objects.devtypeid is the
+-- join key and is unique in this reconstruction.
+CREATE TABLE IF NOT EXISTS tctdb11.objects (
+    devtypeid integer NOT NULL,
+    objname character varying(255),
+    CONSTRAINT objects_pkey PRIMARY KEY (devtypeid)
+);
+
+CREATE TABLE IF NOT EXISTS tctdb11.parameterslist (
+    parameterslistid integer NOT NULL,
+    paramname character varying(255),
+    measunit character varying(255),
+    devtypeid integer,
+    CONSTRAINT parameterslist_pkey PRIMARY KEY (parameterslistid),
+    CONSTRAINT parameterslist_devtypeid_fkey
+        FOREIGN KEY (devtypeid) REFERENCES tctdb11.objects (devtypeid)
+);
+
+CREATE TABLE IF NOT EXISTS tctdb11.sessions (
+    sessionid integer NOT NULL,
+    sessionbegindatetime timestamp without time zone,
+    CONSTRAINT sessions_pkey PRIMARY KEY (sessionid)
+);
+
+CREATE TABLE IF NOT EXISTS tctdb11.readableparamvalues (
+    readableparamvaluesid integer NOT NULL,
+    sessionid integer,
+    parameterslistid integer,
+    paramvaluetxt character varying(255),
+    CONSTRAINT readableparamvalues_pkey PRIMARY KEY (readableparamvaluesid),
+    CONSTRAINT readableparamvalues_sessionid_fkey
+        FOREIGN KEY (sessionid) REFERENCES tctdb11.sessions (sessionid),
+    CONSTRAINT readableparamvalues_parameterslistid_fkey
+        FOREIGN KEY (parameterslistid) REFERENCES tctdb11.parameterslist (parameterslistid)
+);
+
 ALTER TABLE mdam_registers.register_batch OWNER TO sotca;
 ALTER TABLE mdam_registers.register OWNER TO sotca;
 ALTER TABLE tctdb11.dbversion OWNER TO sotca;
 ALTER TABLE tctdb11.parametertypes OWNER TO sotca;
+ALTER TABLE tctdb11.objects OWNER TO sotca;
+ALTER TABLE tctdb11.parameterslist OWNER TO sotca;
+ALTER TABLE tctdb11.sessions OWNER TO sotca;
+ALTER TABLE tctdb11.readableparamvalues OWNER TO sotca;
 
 GRANT USAGE ON SCHEMA mdam_registers, tctdb11 TO sotca;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA mdam_registers TO sotca;
@@ -114,6 +155,22 @@ BEGIN
                   WHERE n.nspname = 'tctdb11'
                     AND c.relname = 'hibernate_sequence'
                     AND c.relkind = 'S'
+             )
+            UNION ALL
+            SELECT 'table tctdb11.' || relname
+              FROM (VALUES
+                    ('objects'),
+                    ('parameterslist'),
+                    ('sessions'),
+                    ('readableparamvalues')
+              ) AS required(relname)
+             WHERE NOT EXISTS (
+                 SELECT 1
+                   FROM pg_class c
+                   JOIN pg_namespace n ON n.oid = c.relnamespace
+                  WHERE n.nspname = 'tctdb11'
+                    AND c.relname = required.relname
+                    AND c.relkind = 'r'
              )
       ) checks;
 
