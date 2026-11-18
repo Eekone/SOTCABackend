@@ -1,11 +1,11 @@
--- Schema for SOTCABackend, derived from the JPA entities.
+-- Schema for PGPAKSBackend, derived from the JPA entities.
 --
 -- Run against an existing database (this file does not create the database):
---   /Library/PostgreSQL/18/bin/psql -U postgres -h localhost -p 5432 -d texnoprom -f sql/postgresql-schema.sql
+--   /Library/PostgreSQL/18/bin/psql -U postgres -h localhost -p 5432 -d promtexmaster -f sql/postgresql-schema.sql
 --
 -- Prepare once, as postgres, before the first run:
 --   CREATE ROLE sotca LOGIN PASSWORD '...';
---   CREATE DATABASE texnoprom OWNER sotca;
+--   CREATE DATABASE promtexmaster OWNER sotca;
 --
 -- The script is safe to run again: existing tables and rows are kept.
 -- Schemas, tables and the id sequence are owned by sotca, which is the role
@@ -22,7 +22,7 @@ BEGIN;
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'sotca') THEN
-        RAISE EXCEPTION 'Role sotca does not exist. Create it, then run this script against database texnoprom.';
+        RAISE EXCEPTION 'Role sotca does not exist. Create it, then run this script against database promtexmaster.';
     END IF;
 END $$;
 

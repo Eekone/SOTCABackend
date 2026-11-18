@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="BackendBootstrap" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.texnoprom.SOTCA.Backend.BackendBootstrap" />
-    <module name="SOTCABackend.main" />
+    <option name="MAIN_CLASS_NAME" value="com.promtexmaster.PGPAKS.Backend.BackendBootstrap" />
+    <module name="PGPAKSBackend.main" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <method v="2">
       <option name="Make" enabled="true" />
