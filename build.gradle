@@ -14,13 +14,13 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-group = 'com.texnoprom.SOTCA.Backend'
+group = 'com.promtexmaster.PGPAKS.Backend'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 // bootRun.main is only filled in later by findMainClass. IntelliJ reads it
 // at import time and fails with CantRunException if it is still empty.
-def applicationMainClass = 'com.texnoprom.SOTCA.Backend.BackendBootstrap'
+def applicationMainClass = 'com.promtexmaster.PGPAKS.Backend.BackendBootstrap'
 
 springBoot {
     mainClass = applicationMainClass
@@ -37,7 +37,7 @@ repositories {
 jar {
     enabled = true
     manifest {
-        attributes 'Main-Class': 'com.texnoprom.SOTCA.Backend.BackendBootstrap'
+        attributes 'Main-Class': 'com.promtexmaster.PGPAKS.Backend.BackendBootstrap'
     }
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
