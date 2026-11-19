@@ -4,11 +4,13 @@
 --   /Library/PostgreSQL/18/bin/psql -U postgres -h localhost -p 5432 -d promtexmaster -f sql/postgresql-schema.sql
 --
 -- Prepare once, as postgres, before the first run:
---   CREATE ROLE sotca LOGIN PASSWORD '...';
---   CREATE DATABASE promtexmaster OWNER sotca;
+--   CREATE ROLE pgpaks LOGIN PASSWORD '...';
+--   CREATE DATABASE promtexmaster OWNER pgpaks;
+-- An existing role left from the previous name is renamed, not recreated:
+--   ALTER ROLE sotca RENAME TO pgpaks;
 --
 -- The script is safe to run again: existing tables and rows are kept.
--- Schemas, tables and the id sequence are owned by sotca, which is the role
+-- Schemas, tables and the id sequence are owned by pgpaks, which is the role
 -- the application uses. Hibernate connects with currentSchema=tctdb11, so
 -- hibernate_sequence lives in that schema.
 --
@@ -21,16 +23,16 @@ BEGIN;
 
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'sotca') THEN
-        RAISE EXCEPTION 'Role sotca does not exist. Create it, then run this script against database promtexmaster.';
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'pgpaks') THEN
+        RAISE EXCEPTION 'Role pgpaks does not exist. Create it, then run this script against database promtexmaster.';
     END IF;
 END $$;
 
 CREATE SCHEMA IF NOT EXISTS mdam_registers;
 CREATE SCHEMA IF NOT EXISTS tctdb11;
 
-ALTER SCHEMA mdam_registers OWNER TO sotca;
-ALTER SCHEMA tctdb11 OWNER TO sotca;
+ALTER SCHEMA mdam_registers OWNER TO pgpaks;
+ALTER SCHEMA tctdb11 OWNER TO pgpaks;
 
 CREATE SEQUENCE IF NOT EXISTS tctdb11.hibernate_sequence
     START WITH 1
@@ -39,7 +41,7 @@ CREATE SEQUENCE IF NOT EXISTS tctdb11.hibernate_sequence
     NO MAXVALUE
     CACHE 1;
 
-ALTER SEQUENCE tctdb11.hibernate_sequence OWNER TO sotca;
+ALTER SEQUENCE tctdb11.hibernate_sequence OWNER TO pgpaks;
 
 CREATE TABLE IF NOT EXISTS mdam_registers.register_batch (
     id integer NOT NULL,
@@ -116,19 +118,19 @@ CREATE TABLE IF NOT EXISTS tctdb11.readableparamvalues (
         FOREIGN KEY (parameterslistid) REFERENCES tctdb11.parameterslist (parameterslistid)
 );
 
-ALTER TABLE mdam_registers.register_batch OWNER TO sotca;
-ALTER TABLE mdam_registers.register OWNER TO sotca;
-ALTER TABLE tctdb11.dbversion OWNER TO sotca;
-ALTER TABLE tctdb11.parametertypes OWNER TO sotca;
-ALTER TABLE tctdb11.objects OWNER TO sotca;
-ALTER TABLE tctdb11.parameterslist OWNER TO sotca;
-ALTER TABLE tctdb11.sessions OWNER TO sotca;
-ALTER TABLE tctdb11.readableparamvalues OWNER TO sotca;
+ALTER TABLE mdam_registers.register_batch OWNER TO pgpaks;
+ALTER TABLE mdam_registers.register OWNER TO pgpaks;
+ALTER TABLE tctdb11.dbversion OWNER TO pgpaks;
+ALTER TABLE tctdb11.parametertypes OWNER TO pgpaks;
+ALTER TABLE tctdb11.objects OWNER TO pgpaks;
+ALTER TABLE tctdb11.parameterslist OWNER TO pgpaks;
+ALTER TABLE tctdb11.sessions OWNER TO pgpaks;
+ALTER TABLE tctdb11.readableparamvalues OWNER TO pgpaks;
 
-GRANT USAGE ON SCHEMA mdam_registers, tctdb11 TO sotca;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA mdam_registers TO sotca;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA tctdb11 TO sotca;
-GRANT USAGE, SELECT, UPDATE ON SEQUENCE tctdb11.hibernate_sequence TO sotca;
+GRANT USAGE ON SCHEMA mdam_registers, tctdb11 TO pgpaks;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA mdam_registers TO pgpaks;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA tctdb11 TO pgpaks;
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE tctdb11.hibernate_sequence TO pgpaks;
 
 DO $$
 DECLARE
@@ -182,9 +184,9 @@ BEGIN
         SELECT 1
           FROM pg_namespace
          WHERE nspname IN ('mdam_registers', 'tctdb11')
-           AND nspowner <> 'sotca'::regrole
+           AND nspowner <> 'pgpaks'::regrole
     ) THEN
-        RAISE EXCEPTION 'Schema owner is not sotca';
+        RAISE EXCEPTION 'Schema owner is not pgpaks';
     END IF;
 END $$;
 

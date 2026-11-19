@@ -17,7 +17,7 @@ public class NamingContractTest {
 
     @Test
     public void clientPathsStayOnTheExistingAddresses() {
-        assertEquals("/sotca", MDAMController.class.getAnnotation(RequestMapping.class).path()[0]);
+        assertEquals("/pgpaks", MDAMController.class.getAnnotation(RequestMapping.class).path()[0]);
         assertEquals("/tct", PTMController.class.getAnnotation(RequestMapping.class).path()[0]);
     }
 

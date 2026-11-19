@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  * Rejects clients whose direct connection address is not on
- * {@code sotca.allowed-addresses}. The forwarded-for header is ignored, so a
+ * {@code pgpaks.allowed-addresses}. The forwarded-for header is ignored, so a
  * client cannot put itself on the list by sending that header.
  */
 @Component
@@ -29,7 +29,7 @@ public class ClientAddressFilter implements Filter {
 
     private final String allowedAddresses;
 
-    public ClientAddressFilter(@Value("${sotca.allowed-addresses:}") String allowedAddresses) {
+    public ClientAddressFilter(@Value("${pgpaks.allowed-addresses:}") String allowedAddresses) {
         this.allowedAddresses = allowedAddresses;
     }
 
