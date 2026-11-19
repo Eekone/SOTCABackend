@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/tct")
+@RequestMapping(path = "/ptm")
 public class PTMController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class PTMController {
 
     @GetMapping("/dbversion")
     public ModelAndView dbversion() {
-        ModelAndView modelAndView = new ModelAndView("tctdbversion");
+        ModelAndView modelAndView = new ModelAndView("ptmdbversion");
         DBVersion dbVersion = dbVersionRepository.findTopByOrderByIddbversionDesc();
         //ToDo: move to template
         String versionString = "Версия: " + dbVersion.getDbversionname() +
