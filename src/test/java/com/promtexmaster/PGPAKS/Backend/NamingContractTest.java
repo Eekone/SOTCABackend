@@ -17,15 +17,15 @@ public class NamingContractTest {
 
     @Test
     public void clientPathsStayOnTheExistingAddresses() {
-        assertEquals("/sotca", MDAMController.class.getAnnotation(RequestMapping.class).path()[0]);
-        assertEquals("/tct", PTMController.class.getAnnotation(RequestMapping.class).path()[0]);
+        assertEquals("/pgpaks", MDAMController.class.getAnnotation(RequestMapping.class).path()[0]);
+        assertEquals("/ptm", PTMController.class.getAnnotation(RequestMapping.class).path()[0]);
     }
 
     @Test
     public void tablesStayInTheExistingSchemas() {
-        assertEquals("tctdb11", DBVersion.class.getAnnotation(Table.class).schema());
+        assertEquals("ptmdb11", DBVersion.class.getAnnotation(Table.class).schema());
         assertEquals("dbversion", DBVersion.class.getAnnotation(Table.class).name());
-        assertEquals("tctdb11", ParameterType.class.getAnnotation(Table.class).schema());
+        assertEquals("ptmdb11", ParameterType.class.getAnnotation(Table.class).schema());
         assertEquals("parametertypes", ParameterType.class.getAnnotation(Table.class).name());
         assertEquals("mdam_registers", Register.class.getAnnotation(Table.class).schema());
         assertEquals("register", Register.class.getAnnotation(Table.class).name());

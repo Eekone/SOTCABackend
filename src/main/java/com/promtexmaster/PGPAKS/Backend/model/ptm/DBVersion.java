@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(schema = "tctdb11", name = "dbversion")
+@Table(schema = "ptmdb11", name = "dbversion")
 public class DBVersion {
 
     @Id

@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/sotca")
+@RequestMapping(path = "/pgpaks")
 public class MDAMController {
 
     private static final int BUTTONS_TO_SHOW = 5;

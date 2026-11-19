@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(schema = "tctdb11", name = "parametertypes")
+@Table(schema = "ptmdb11", name = "parametertypes")
 public class ParameterType {
 
     @Id
